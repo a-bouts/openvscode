@@ -26,4 +26,4 @@ jobs:
           context: .
           platforms: linux/arm64
           push: true
-          tags: stoub/openvscode-server:latest
+          tags: stoub/openvscode-server:1.85.0
