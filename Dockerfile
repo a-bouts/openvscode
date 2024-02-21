@@ -1,4 +1,4 @@
-FROM gitpod/openvscode-server:1.85.0
+FROM gitpod/openvscode-server:1.86.2
 
 ENV OPENVSCODE_SERVER_ROOT="/home/.openvscode-server"
 ENV OPENVSCODE="${OPENVSCODE_SERVER_ROOT}/bin/openvscode-server"
@@ -31,12 +31,21 @@ ENV RUSTUP_HOME=/usr/local/rustup \
 
 USER root
 RUN \
+    # Install rust
     curl -L https://go.dev/dl/go1.21.4.linux-arm64.tar.gz | tar -C /usr/local -zx \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN \
+    # Install kubectl
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" \
+    && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl.sha256" \
+    && echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check \
+    && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
 ENV CARGO_HOME=/home/workspace/.cargo
 
 USER openvscode-server
