@@ -36,6 +36,7 @@ RUN \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes build-essential zsh \
+    && chsh -s /usr/bin/zsh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
