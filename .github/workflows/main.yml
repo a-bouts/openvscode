@@ -24,11 +24,11 @@ jobs:
         id: extract_tag
         run: |
           TAG=$(grep -oP 'FROM \K.*' Dockerfile | cut -d ':' -f 2)
-          echo "::set-output name=TAG::${TAG}"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           platforms: linux/arm64
           push: true
-          tags: stoub/openvscode-server:${{ steps.extract_tag.outputs.TAG }}
+          tags: stoub/openvscode-server:${{ steps.extract_tag.outputs.tag }}
