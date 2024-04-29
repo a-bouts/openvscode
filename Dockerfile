@@ -25,9 +25,7 @@ RUN \
     # Install the $exts
     && for ext in "${exts[@]}"; do ${OPENVSCODE} --install-extension "${ext}"; done
 
-ENV RUSTUP_HOME=/usr/local/rustup \
-    CARGO_HOME=/usr/local/cargo \
-    PATH=/usr/local/go/bin:/usr/local/cargo/bin:${PATH}
+ENV PATH=/usr/local/go/bin:${PATH}
 
 USER root
 RUN \
